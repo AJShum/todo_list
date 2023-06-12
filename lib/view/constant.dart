@@ -68,17 +68,37 @@ const darkColorScheme = ColorScheme(
   scrim: Color(0xff000000),
 );
 const textTheme = TextTheme(
-  bodyLarge: TextStyle(),
-  bodyMedium: TextStyle(),
-  bodySmall: TextStyle(),
+  bodyLarge: TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 32,
+    fontWeight: FontWeight.w500,
+  ),
+  bodyMedium: TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+  ),
+  bodySmall: TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+  ),
   headlineLarge: TextStyle(),
   headlineMedium: TextStyle(),
   headlineSmall: TextStyle(),
-  labelLarge: TextStyle(),
+  labelLarge: TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+  ),
   labelMedium: TextStyle(),
   labelSmall: TextStyle(),
   titleLarge: TextStyle(),
-  titleMedium: TextStyle(),
+  titleMedium: TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 20,
+    fontWeight: FontWeight.w500,
+  ),
   titleSmall: TextStyle(),
   displayLarge: TextStyle(),
   displayMedium: TextStyle(),

@@ -17,10 +17,12 @@ class ToDoApp extends StatelessWidget {
       darkTheme: ThemeData(
         useMaterial3: false,
         colorScheme: darkColorScheme,
+        textTheme: textTheme,
       ),
       theme: ThemeData(
         useMaterial3: false,
         colorScheme: lightColorScheme,
+        textTheme: textTheme,
       ),
       home: const MainView(),
     );

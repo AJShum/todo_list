@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:todo_list/view/component/swiped_widget.dart';
 
@@ -11,11 +13,20 @@ class MainView extends StatefulWidget {
 
 class _MainViewState extends State<MainView> {
   late ScrollController _scrollController;
+  double? _scrollPosition;
 
   @override
   void initState() {
-    _scrollController = ScrollController();
     super.initState();
+    _scrollController = ScrollController()..addListener(_getControllerValue);
+  }
+
+  void _getControllerValue() {
+    if (_scrollController.hasClients) {
+      setState(() {
+        _scrollPosition = _scrollController.offset;
+      });
+    }
   }
 
   @override
@@ -27,31 +38,53 @@ class _MainViewState extends State<MainView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.add),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 40, right: 16),
+        child: FloatingActionButton(
+          onPressed: () {},
+          child: const Icon(Icons.add),
+        ),
       ),
       body: CustomScrollView(
         controller: _scrollController,
         slivers: [
-          const SliverAppBar(
+          SliverAppBar(
             snap: true,
             pinned: true,
             floating: true,
-            expandedHeight: 120,
+            expandedHeight: 164,
             flexibleSpace: FlexibleSpaceBar(
               expandedTitleScale: 1,
               centerTitle: true,
               title: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                padding:
+                    const EdgeInsets.only(left: 60, right: 24.98, bottom: 12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(
-                      "Balance \n \$250",
-                      style: TextStyle(fontSize: 16, color: Colors.black),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          'Мои дела',
+                          style: TextStyle(
+                            fontSize:
+                                _scrollPosition != null && _scrollPosition! < 10
+                                    ? 50
+                                    : 20,
+                            color: Colors.black,
+                          ),
+                        ),
+                        if (_scrollController.offset < 10)
+                          const Text(
+                            'Выполнено - 5',
+                            style: TextStyle(fontSize: 14, color: Colors.black),
+                          ),
+                      ],
                     ),
-                    Icon(
+                    const Icon(
                       Icons.wallet_membership,
                       color: Colors.black,
                     )
@@ -63,10 +96,9 @@ class _MainViewState extends State<MainView> {
             backgroundColor: Colors.white,
           ),
           SliverFillRemaining(
-            hasScrollBody: true,
             child: Card(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                padding: const EdgeInsets.symmetric(vertical: 8),
                 child: ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
