@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/view/custom_color_scheme.dart';
 
-const lightColorScheme = ColorScheme(
+var lightColorScheme = ColorScheme(
   brightness: Brightness.light,
   primary: Color(0xff6c5e00),
   onPrimary: Color(0xffffffff),
-  primaryContainer: Color(0xffffe32b),
+  primaryContainer: CustomColorScheme.dark.blue,
   onPrimaryContainer: Color(0xff211c00),
-  secondary: Color(0xff655f41),
+  secondary: CustomColorScheme.light.back_secondary!,
   onSecondary: Color(0xffffffff),
   secondaryContainer: Color(0xffece3bc),
   onSecondaryContainer: Color(0xff201c05),
@@ -18,10 +19,10 @@ const lightColorScheme = ColorScheme(
   errorContainer: Color(0xffffdad6),
   onError: Color(0xffffffff),
   onErrorContainer: Color(0xff410002),
-  background: Color(0xfffffbff),
+  background: CustomColorScheme.light.back_primary!,
   onBackground: Color(0xff1d1c16),
   surface: Color(0xfffffbff),
-  onSurface: Color(0xff1d1c16),
+  onSurface: CustomColorScheme.light.label_primary!,
   surfaceVariant: Color(0xffe9e2d0),
   onSurfaceVariant: Color(0xff4a4739),
   outline: Color(0xff7b7768),
@@ -34,13 +35,13 @@ const lightColorScheme = ColorScheme(
   scrim: Color(0xff000000),
 );
 
-const darkColorScheme = ColorScheme(
+var darkColorScheme = ColorScheme(
   brightness: Brightness.dark,
   primary: Color(0xff6c5e00),
   onPrimary: Color(0xffffffff),
-  primaryContainer: Color(0xffffe32b),
+  primaryContainer: CustomColorScheme.dark.back_secondary,
   onPrimaryContainer: Color(0xff211c00),
-  secondary: Color(0xff655f41),
+  secondary: CustomColorScheme.dark.blue!,
   onSecondary: Color(0xffffffff),
   secondaryContainer: Color(0xffece3bc),
   onSecondaryContainer: Color(0xff201c05),
@@ -52,10 +53,10 @@ const darkColorScheme = ColorScheme(
   errorContainer: Color(0xffffdad6),
   onError: Color(0xffffffff),
   onErrorContainer: Color(0xff410002),
-  background: Color(0xfffffbff),
+  background: CustomColorScheme.dark.back_primary!,
   onBackground: Color(0xff1d1c16),
   surface: Color(0xfffffbff),
-  onSurface: Color(0xff1d1c16),
+  onSurface: CustomColorScheme.dark.label_primary!,
   surfaceVariant: Color(0xffe9e2d0),
   onSurfaceVariant: Color(0xff4a4739),
   outline: Color(0xff7b7768),

@@ -40,14 +40,14 @@ class _SwipedWidgetState extends State<SwipedWidget> {
           background: Container(
             width: double.maxFinite,
             alignment: Alignment.centerLeft,
-            color: Colors.red,
+            color: Colors.green,
             child: ValueListenableBuilder(
               valueListenable: _leftIconPadding,
               builder: (BuildContext context, double value, Widget? child) {
                 if (value > 0) {
                   return Padding(
                     padding: EdgeInsets.only(left: value),
-                    child: const Icon(Icons.remove),
+                    child: const Icon(Icons.check),
                   );
                 } else {
                   return const SizedBox();
@@ -58,14 +58,14 @@ class _SwipedWidgetState extends State<SwipedWidget> {
           secondaryBackground: Container(
             width: double.maxFinite,
             alignment: Alignment.centerRight,
-            color: Colors.blue,
+            color: Colors.red,
             child: ValueListenableBuilder(
               valueListenable: _rightIconPadding,
               builder: (BuildContext context, double value, Widget? child) {
                 if (value > 0) {
                   return Padding(
                     padding: EdgeInsets.only(right: value),
-                    child: const Icon(Icons.edit),
+                    child: const Icon(Icons.delete),
                   );
                 } else {
                   return const SizedBox();
@@ -78,9 +78,9 @@ class _SwipedWidgetState extends State<SwipedWidget> {
           },
           confirmDismiss: (DismissDirection direction) async {
             if (direction == DismissDirection.startToEnd) {
-              return true;
-            } else {
               return false;
+            } else {
+              return true;
             }
           },
           key: UniqueKey(),
@@ -116,9 +116,9 @@ class _SwipedWidgetState extends State<SwipedWidget> {
                       Text(
                         'current text',
                         textAlign: TextAlign.start,
-                        style: Theme.of(context).textTheme.titleLarge,
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
-                      Text('дата')
+                      Text('дата', style: Theme.of(context).textTheme.bodySmall)
                     ],
                   ),
                 ),
