@@ -1,27 +1,21 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:todo_list/model/task.dart';
 
-/// [SwipedWidget]
-class SwipedWidget extends StatefulWidget {
-  /// [SwipedWidget] constructor
-  const SwipedWidget({super.key});
+/// [SwipedWidget] list component
+class SwipedWidget extends StatelessWidget {
+  // ignore: public_member_api_docs
+  SwipedWidget(this.task, {super.key});
 
-  @override
-  State<SwipedWidget> createState() => _SwipedWidgetState();
-}
-
-class _SwipedWidgetState extends State<SwipedWidget> {
-  late bool _checkboxState;
+  Task task;
 
   final ValueNotifier<double> _leftIconPadding = ValueNotifier<double>(0);
+
   final ValueNotifier<double> _rightIconPadding = ValueNotifier<double>(0);
 
-  @override
-  void initState() {
-    _checkboxState = false;
-    super.initState();
-  }
+  final FakeTaskRepository _repository = Get.find<FakeTaskRepository>();
 
   @override
   Widget build(BuildContext context) {
@@ -74,12 +68,23 @@ class _SwipedWidgetState extends State<SwipedWidget> {
             ),
           ),
           onDismissed: (direction) {
-            log(direction.toString());
+            // TODO: only delete
           },
           confirmDismiss: (DismissDirection direction) async {
             if (direction == DismissDirection.startToEnd) {
+              log(
+                '[_SwipedWidgetState] swiped from left to right '
+                'on item ${task.id.v4}',
+                name: 'info',
+              );
+              // TODO: done
               return false;
             } else {
+              log(
+                '[_SwipedWidgetState] swiped from right to left '
+                'on item ${task.id.v4}',
+                name: 'info',
+              );
               return true;
             }
           },
@@ -95,12 +100,15 @@ class _SwipedWidgetState extends State<SwipedWidget> {
                     constraints:
                         const BoxConstraints(maxWidth: 18, maxHeight: 18),
                     child: Checkbox(
-                      value: _checkboxState,
+                      value: task.done,
                       onChanged: (value) {
                         if (value != null) {
-                          setState(() {
-                            _checkboxState = value;
-                          });
+                          log(
+                            '[_SwipedWidgetState] пользователь нажал на'
+                            'checkbox задачи ${task.id.v4}',
+                            name: 'info',
+                          );
+                          _repository.editTask(task.copyWith(done: value));
                         }
                       },
                     ),
@@ -114,20 +122,35 @@ class _SwipedWidgetState extends State<SwipedWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'current text',
+                        task.text,
                         textAlign: TextAlign.start,
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
-                      Text('дата', style: Theme.of(context).textTheme.bodySmall)
+                      Text(
+                        // FIX: change later
+                        task.deadline.toString(),
+                        style: Theme.of(context).textTheme.bodySmall,
+                      )
                     ],
                   ),
                 ),
                 const SizedBox(
                   width: 4,
                 ),
-                const Icon(
-                  Icons.info_outline,
-                  size: 19.9,
+                IconButton(
+                  icon: const Icon(
+                    Icons.info_outline,
+                    size: 19.9,
+                  ),
+                  onPressed: () {
+                    log(
+                      '[SwipedWdget] user push information icon on'
+                      'task ${task.id.v4}',
+                      name: 'info',
+                    );
+                    Navigator.of(context)
+                        .pushNamed('/editPage', arguments: task);
+                  },
                 ),
               ],
             ),

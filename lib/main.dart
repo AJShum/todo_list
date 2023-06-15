@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/main_binding.dart';
+import 'package:todo_list/router.dart';
 import 'package:todo_list/view/constant.dart';
 import 'package:todo_list/view/custom_color_scheme.dart';
-import 'package:todo_list/view/main_view.dart';
 
-void main() {
-  runApp(const ToDoApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final mainBinding = MainBinding();
+  await mainBinding.dependencies();
+  runApp(ToDoApp());
 }
 
 // ignore: public_member_api_docs
 class ToDoApp extends StatelessWidget {
   // ignore: public_member_api_docs
-  const ToDoApp({super.key});
+  ToDoApp({super.key});
+
+  final AppRouter _appRouter = AppRouter();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'TODO list',
       darkTheme: ThemeData(
         useMaterial3: false,
         textTheme: textTheme,
@@ -38,8 +45,21 @@ class ToDoApp extends StatelessWidget {
         colorScheme: lightColorScheme,
         textTheme: textTheme,
         extensions: const <ThemeExtension<dynamic>>[CustomColorScheme.dark],
+        // FIX: DRY?
+        checkboxTheme: CheckboxThemeData(
+          fillColor: MaterialStateProperty.resolveWith((states) {
+            if (states.contains(MaterialState.selected)) {
+              return CustomColorScheme.light.green;
+            } else {
+              return CustomColorScheme.light.suport_separator;
+            }
+          }),
+          checkColor: MaterialStateProperty.resolveWith((states) {
+            return CustomColorScheme.light.back_secondary;
+          }),
+        ),
       ),
-      home: const MainView(),
+      onGenerateRoute: _appRouter.onGeneratedRoute,
     );
   }
 }

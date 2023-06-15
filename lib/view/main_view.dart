@@ -1,10 +1,13 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:todo_list/model/task.dart';
 import 'package:todo_list/view/component/swiped_widget.dart';
 
+/// [MainView] the main window that the user sees when entering the program
 class MainView extends StatefulWidget {
-  /// [MainView] constructor
+  // ignore: public_member_api_docs
   const MainView({super.key});
 
   @override
@@ -15,6 +18,7 @@ class _MainViewState extends State<MainView> {
   final ScrollController _scrollController =
       ScrollController(initialScrollOffset: 1);
   double _scrollPosition = 0;
+  final _repository = Get.find<FakeTaskRepository>();
 
   @override
   void initState() {
@@ -94,6 +98,7 @@ class _MainViewState extends State<MainView> {
                             ),
                         ],
                       ),
+                      // TODO: добавить изменение глаза при переключении
                       const Icon(
                         Icons.remove_red_eye_rounded,
                         color: Colors.black,
@@ -102,19 +107,24 @@ class _MainViewState extends State<MainView> {
                   ),
                 ),
               ), //FlexibleSpaceBar
-
               backgroundColor: Colors.white,
             ),
             SliverFillRemaining(
               child: Card(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return const SwipedWidget();
-                    },
-                    itemCount: 5,
+                  // FIX: почему то изменения вносимые в любой эл
+                  child: Obx(
+                    () => ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return SwipedWidget(
+                          key: UniqueKey(),
+                          _repository.getTaskByIndex(index),
+                        );
+                      },
+                      itemCount: _repository.length,
+                    ),
                   ),
                 ),
               ),
