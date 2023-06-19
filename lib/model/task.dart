@@ -13,7 +13,7 @@ enum TaskImportance { absent, low, high }
 @freezed
 class Task with _$Task {
   factory Task({
-    required Uuid id,
+    required String id,
     required String text,
     required TaskImportance importance,
     required DateTime deadline,
@@ -31,7 +31,7 @@ class FakeTaskRepository extends GetxController {
   final List<Task> _taskArray = List.generate(
     _fakeName.length,
     (index) => Task(
-      id: const Uuid(),
+      id: const Uuid().v4(),
       text: _fakeName[index],
       importance: TaskImportance.absent,
       deadline: DateTime.now().add(const Duration(hours: 10)),

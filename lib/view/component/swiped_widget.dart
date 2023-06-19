@@ -74,7 +74,7 @@ class SwipedWidget extends StatelessWidget {
             if (direction == DismissDirection.startToEnd) {
               log(
                 '[_SwipedWidgetState] swiped from left to right '
-                'on item ${task.id.v4}',
+                'on item ${task.id}',
                 name: 'info',
               );
               // TODO: done
@@ -82,7 +82,7 @@ class SwipedWidget extends StatelessWidget {
             } else {
               log(
                 '[_SwipedWidgetState] swiped from right to left '
-                'on item ${task.id.v4}',
+                'on item ${task.id}',
                 name: 'info',
               );
               return true;
@@ -105,7 +105,7 @@ class SwipedWidget extends StatelessWidget {
                         if (value != null) {
                           log(
                             '[_SwipedWidgetState] пользователь нажал на'
-                            'checkbox задачи ${task.id.v4}',
+                            'checkbox задачи ${task.id}',
                             name: 'info',
                           );
                           _repository.editTask(task.copyWith(done: value));
@@ -145,7 +145,7 @@ class SwipedWidget extends StatelessWidget {
                   onPressed: () {
                     log(
                       '[SwipedWdget] user push information icon on'
-                      'task ${task.id.v4}',
+                      'task ${task.id}',
                       name: 'info',
                     );
                     Navigator.of(context)

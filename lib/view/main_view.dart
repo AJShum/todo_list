@@ -98,10 +98,12 @@ class _MainViewState extends State<MainView> {
                             ),
                         ],
                       ),
-                      // TODO: добавить изменение глаза при переключении
-                      const Icon(
-                        Icons.remove_red_eye_rounded,
+                      IconButton(
+                        icon: const Icon(Icons.remove_red_eye_rounded),
                         color: Colors.black,
+                        onPressed: () {
+                          // TODO: добавить изменение глаза при переключении
+                        },
                       )
                     ],
                   ),
@@ -119,7 +121,6 @@ class _MainViewState extends State<MainView> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         return SwipedWidget(
-                          key: UniqueKey(),
                           _repository.getTaskByIndex(index),
                         );
                       },

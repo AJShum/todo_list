@@ -22,9 +22,9 @@ class AppRouter {
             },
           );
         } else {
-          // TODO: do something if no argument was passed
           return MaterialPageRoute(
-              builder: (_) => const CircularProgressIndicator());
+            builder: (_) => const CircularProgressIndicator(),
+          );
         }
       default:
         return MaterialPageRoute(

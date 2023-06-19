@@ -112,7 +112,7 @@ class _EditPageState extends State<EditPage> {
                     onSelected: (value) {
                       log(
                           '[EditPage] change priority to $value for '
-                          '${widget.editedTask.id.v4}',
+                          '${widget.editedTask.id}',
                           name: 'info');
                       _priority = value;
                       setState(() {});
@@ -154,7 +154,7 @@ class _EditPageState extends State<EditPage> {
                 GestureDetector(
                   onTap: () {
                     log(
-                      '[EditPage] remove task with ${widget.editedTask.id.v4}',
+                      '[EditPage] remove task with ${widget.editedTask.id}',
                       name: 'info',
                     );
                     // TODO: remove item

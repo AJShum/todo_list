@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:todo_list/main_binding.dart';
 import 'package:todo_list/router.dart';
 import 'package:todo_list/view/constant.dart';
@@ -20,10 +21,10 @@ class ToDoApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'TODO list',
       darkTheme: ThemeData(
-        useMaterial3: false,
+        useMaterial3: true,
         textTheme: textTheme,
         colorScheme: darkColorScheme,
         extensions: const <ThemeExtension<dynamic>>[CustomColorScheme.dark],
@@ -41,11 +42,10 @@ class ToDoApp extends StatelessWidget {
         ),
       ),
       theme: ThemeData(
-        useMaterial3: false,
+        useMaterial3: true,
         colorScheme: lightColorScheme,
         textTheme: textTheme,
         extensions: const <ThemeExtension<dynamic>>[CustomColorScheme.dark],
-        // FIX: DRY?
         checkboxTheme: CheckboxThemeData(
           fillColor: MaterialStateProperty.resolveWith((states) {
             if (states.contains(MaterialState.selected)) {

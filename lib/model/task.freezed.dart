@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Task {
-  Uuid get id => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
   TaskImportance get importance => throw _privateConstructorUsedError;
   DateTime get deadline => throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ abstract class $TaskCopyWith<$Res> {
       _$TaskCopyWithImpl<$Res, Task>;
   @useResult
   $Res call(
-      {Uuid id,
+      {String id,
       String text,
       TaskImportance importance,
       DateTime deadline,
@@ -74,7 +74,7 @@ class _$TaskCopyWithImpl<$Res, $Val extends Task>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as Uuid,
+              as String,
       text: null == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -118,7 +118,7 @@ abstract class _$$_TaskCopyWith<$Res> implements $TaskCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {Uuid id,
+      {String id,
       String text,
       TaskImportance importance,
       DateTime deadline,
@@ -152,7 +152,7 @@ class __$$_TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res, _$_Task>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as Uuid,
+              as String,
       text: null == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -204,7 +204,7 @@ class _$_Task implements _Task {
       required this.deviceId});
 
   @override
-  final Uuid id;
+  final String id;
   @override
   final String text;
   @override
@@ -261,7 +261,7 @@ class _$_Task implements _Task {
 
 abstract class _Task implements Task {
   factory _Task(
-      {required final Uuid id,
+      {required final String id,
       required final String text,
       required final TaskImportance importance,
       required final DateTime deadline,
@@ -272,7 +272,7 @@ abstract class _Task implements Task {
       required final int deviceId}) = _$_Task;
 
   @override
-  Uuid get id;
+  String get id;
   @override
   String get text;
   @override
