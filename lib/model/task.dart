@@ -64,12 +64,8 @@ class Task extends HiveObject with _$Task {
   }
 }
 
-List<String> _fakeName = ['123', 'что-то', 'сходить в магазин'];
-
 class FakeTaskRepository {
-  bool load = false;
-
-  FakeTaskRepository() {
+  Future init() async {
     var path = Directory.current.path;
     Hive
       ..init(path)
@@ -77,7 +73,7 @@ class FakeTaskRepository {
       ..registerAdapter(ImportanceAdapter())
       ..registerAdapter(StatusAdapter());
 
-    Hive.openBox<Task>('testBox').then((value) => box = value);
+    await Hive.openBox<Task>('testBox').then((value) => box = value);
   }
 
   Box<Task>? box;
