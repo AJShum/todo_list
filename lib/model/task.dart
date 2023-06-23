@@ -1,66 +1,125 @@
 // ignore_for_file: public_member_api_docs
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
 
 part 'task.freezed.dart';
+part 'task.g.dart';
 
-enum TaskStatus { done, removed, established, standart }
+@HiveType(typeId: 1, adapterName: 'StatusAdapter')
+enum TaskStatus {
+  @HiveField(0)
+  done,
+  @HiveField(1)
+  removed,
+  @HiveField(2)
+  established,
+  @HiveField(3)
+  standart
+}
 
-enum TaskImportance { absent, low, high }
+@HiveType(typeId: 2, adapterName: 'ImportanceAdapter')
+enum TaskImportance {
+  @HiveField(0)
+  absent,
+  @HiveField(1)
+  low,
+  @HiveField(2)
+  high
+}
 
 ///
 @freezed
-class Task with _$Task {
+class Task extends HiveObject with _$Task {
+  @HiveType(typeId: 0, adapterName: 'TaskAdapter')
   factory Task({
-    required String id,
-    required String text,
-    required TaskImportance importance,
-    required DateTime deadline,
-    required bool done,
-    required String color,
-    required DateTime createdAt,
-    required DateTime changedAt,
-    required int deviceId,
+    @HiveField(0) required String text,
+    @HiveField(1) required String id,
+    @HiveField(2) required TaskImportance importance,
+    @HiveField(3) required DateTime deadline,
+    @HiveField(4) required bool done,
+    @HiveField(5) required String color,
+    @HiveField(6) required DateTime createdAt,
+    @HiveField(7) required DateTime changedAt,
+    @HiveField(8) required int deviceId,
   }) = _Task;
-}
 
-List<String> _fakeName = ['123', 'что-то', 'сходить в магазин'];
+  Task._();
 
-class FakeTaskRepository extends GetxController {
-  final List<Task> _taskArray = List.generate(
-    _fakeName.length,
-    (index) => Task(
+  factory Task.empty() {
+    return Task(
       id: const Uuid().v4(),
-      text: _fakeName[index],
+      text: '',
       importance: TaskImportance.absent,
-      deadline: DateTime.now().add(const Duration(hours: 10)),
+      deadline: DateTime.now(),
       done: false,
       color: 'FFFFFFFF',
       createdAt: DateTime.now().subtract(const Duration(days: 1)),
       changedAt: DateTime.now().subtract(const Duration(days: 1)),
-      deviceId: index,
-    ),
-  ).obs;
+      deviceId: 123,
+    );
+  }
+}
 
-  int get length => _taskArray.length;
+List<String> _fakeName = ['123', 'что-то', 'сходить в магазин'];
+
+class FakeTaskRepository {
+  bool load = false;
+
+  FakeTaskRepository() {
+    var path = Directory.current.path;
+    Hive
+      ..init(path)
+      ..registerAdapter(TaskAdapter())
+      ..registerAdapter(ImportanceAdapter())
+      ..registerAdapter(StatusAdapter());
+
+    Hive.openBox<Task>('testBox').then((value) => box = value);
+  }
+
+  Box<Task>? box;
+
+  int get length => box == null ? 0 : box!.length;
 
   void createTask(Task task) {
-    if (!_taskArray.contains(task)) {
-      _taskArray.add(task);
+    if (box != null) {
+      box!.put(task.id, task);
+    }
+  }
+
+  List<Task> getTasks() {
+    log('[Repository] get all Task', name: 'info');
+    if (box != null) {
+      return box!.values.toList();
+    } else {
+      return [Task.empty()];
     }
   }
 
   void removeTask(Task task) {
-    _taskArray.removeWhere((element) => element == task);
+    if (box != null) {
+      box!.delete(task.id);
+    }
   }
 
   void editTask(Task task) {
-    final index = _taskArray.indexWhere((element) => element.id == task.id);
-    _taskArray[index] = task;
+    if (box != null) {
+      box!.put(task.id, task);
+    }
   }
 
-  Task getTaskByIndex(int index) {
-    return _taskArray[index];
+  Task? getTaskByIndex(int index) {
+    if (box != null) {
+      return box!.values.take(index).last;
+    }
+  }
+
+  void addTask(Task task) {
+    if (box != null) {
+      box!.put(task.id, task);
+    }
   }
 }

@@ -16,14 +16,23 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Task {
-  String get id => throw _privateConstructorUsedError;
+  @HiveField(0)
   String get text => throw _privateConstructorUsedError;
+  @HiveField(1)
+  String get id => throw _privateConstructorUsedError;
+  @HiveField(2)
   TaskImportance get importance => throw _privateConstructorUsedError;
+  @HiveField(3)
   DateTime get deadline => throw _privateConstructorUsedError;
+  @HiveField(4)
   bool get done => throw _privateConstructorUsedError;
+  @HiveField(5)
   String get color => throw _privateConstructorUsedError;
+  @HiveField(6)
   DateTime get createdAt => throw _privateConstructorUsedError;
+  @HiveField(7)
   DateTime get changedAt => throw _privateConstructorUsedError;
+  @HiveField(8)
   int get deviceId => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -36,15 +45,15 @@ abstract class $TaskCopyWith<$Res> {
       _$TaskCopyWithImpl<$Res, Task>;
   @useResult
   $Res call(
-      {String id,
-      String text,
-      TaskImportance importance,
-      DateTime deadline,
-      bool done,
-      String color,
-      DateTime createdAt,
-      DateTime changedAt,
-      int deviceId});
+      {@HiveField(0) String text,
+      @HiveField(1) String id,
+      @HiveField(2) TaskImportance importance,
+      @HiveField(3) DateTime deadline,
+      @HiveField(4) bool done,
+      @HiveField(5) String color,
+      @HiveField(6) DateTime createdAt,
+      @HiveField(7) DateTime changedAt,
+      @HiveField(8) int deviceId});
 }
 
 /// @nodoc
@@ -60,8 +69,8 @@ class _$TaskCopyWithImpl<$Res, $Val extends Task>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
     Object? text = null,
+    Object? id = null,
     Object? importance = null,
     Object? deadline = null,
     Object? done = null,
@@ -71,13 +80,13 @@ class _$TaskCopyWithImpl<$Res, $Val extends Task>
     Object? deviceId = null,
   }) {
     return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
       text: null == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
+              as String,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as String,
       importance: null == importance
           ? _value.importance
@@ -118,15 +127,15 @@ abstract class _$$_TaskCopyWith<$Res> implements $TaskCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String id,
-      String text,
-      TaskImportance importance,
-      DateTime deadline,
-      bool done,
-      String color,
-      DateTime createdAt,
-      DateTime changedAt,
-      int deviceId});
+      {@HiveField(0) String text,
+      @HiveField(1) String id,
+      @HiveField(2) TaskImportance importance,
+      @HiveField(3) DateTime deadline,
+      @HiveField(4) bool done,
+      @HiveField(5) String color,
+      @HiveField(6) DateTime createdAt,
+      @HiveField(7) DateTime changedAt,
+      @HiveField(8) int deviceId});
 }
 
 /// @nodoc
@@ -138,8 +147,8 @@ class __$$_TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res, _$_Task>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
     Object? text = null,
+    Object? id = null,
     Object? importance = null,
     Object? deadline = null,
     Object? done = null,
@@ -149,13 +158,13 @@ class __$$_TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res, _$_Task>
     Object? deviceId = null,
   }) {
     return _then(_$_Task(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
       text: null == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
+              as String,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as String,
       importance: null == importance
           ? _value.importance
@@ -191,40 +200,51 @@ class __$$_TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res, _$_Task>
 
 /// @nodoc
 
-class _$_Task implements _Task {
+@HiveType(typeId: 0, adapterName: 'TaskAdapter')
+class _$_Task extends _Task {
   _$_Task(
-      {required this.id,
-      required this.text,
-      required this.importance,
-      required this.deadline,
-      required this.done,
-      required this.color,
-      required this.createdAt,
-      required this.changedAt,
-      required this.deviceId});
+      {@HiveField(0) required this.text,
+      @HiveField(1) required this.id,
+      @HiveField(2) required this.importance,
+      @HiveField(3) required this.deadline,
+      @HiveField(4) required this.done,
+      @HiveField(5) required this.color,
+      @HiveField(6) required this.createdAt,
+      @HiveField(7) required this.changedAt,
+      @HiveField(8) required this.deviceId})
+      : super._();
 
   @override
-  final String id;
-  @override
+  @HiveField(0)
   final String text;
   @override
+  @HiveField(1)
+  final String id;
+  @override
+  @HiveField(2)
   final TaskImportance importance;
   @override
+  @HiveField(3)
   final DateTime deadline;
   @override
+  @HiveField(4)
   final bool done;
   @override
+  @HiveField(5)
   final String color;
   @override
+  @HiveField(6)
   final DateTime createdAt;
   @override
+  @HiveField(7)
   final DateTime changedAt;
   @override
+  @HiveField(8)
   final int deviceId;
 
   @override
   String toString() {
-    return 'Task(id: $id, text: $text, importance: $importance, deadline: $deadline, done: $done, color: $color, createdAt: $createdAt, changedAt: $changedAt, deviceId: $deviceId)';
+    return 'Task(text: $text, id: $id, importance: $importance, deadline: $deadline, done: $done, color: $color, createdAt: $createdAt, changedAt: $changedAt, deviceId: $deviceId)';
   }
 
   @override
@@ -232,8 +252,8 @@ class _$_Task implements _Task {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Task &&
-            (identical(other.id, id) || other.id == id) &&
             (identical(other.text, text) || other.text == text) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.importance, importance) ||
                 other.importance == importance) &&
             (identical(other.deadline, deadline) ||
@@ -249,7 +269,7 @@ class _$_Task implements _Task {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, text, importance, deadline,
+  int get hashCode => Object.hash(runtimeType, text, id, importance, deadline,
       done, color, createdAt, changedAt, deviceId);
 
   @JsonKey(ignore: true)
@@ -259,35 +279,45 @@ class _$_Task implements _Task {
       __$$_TaskCopyWithImpl<_$_Task>(this, _$identity);
 }
 
-abstract class _Task implements Task {
+abstract class _Task extends Task {
   factory _Task(
-      {required final String id,
-      required final String text,
-      required final TaskImportance importance,
-      required final DateTime deadline,
-      required final bool done,
-      required final String color,
-      required final DateTime createdAt,
-      required final DateTime changedAt,
-      required final int deviceId}) = _$_Task;
+      {@HiveField(0) required final String text,
+      @HiveField(1) required final String id,
+      @HiveField(2) required final TaskImportance importance,
+      @HiveField(3) required final DateTime deadline,
+      @HiveField(4) required final bool done,
+      @HiveField(5) required final String color,
+      @HiveField(6) required final DateTime createdAt,
+      @HiveField(7) required final DateTime changedAt,
+      @HiveField(8) required final int deviceId}) = _$_Task;
+  _Task._() : super._();
 
   @override
-  String get id;
-  @override
+  @HiveField(0)
   String get text;
   @override
+  @HiveField(1)
+  String get id;
+  @override
+  @HiveField(2)
   TaskImportance get importance;
   @override
+  @HiveField(3)
   DateTime get deadline;
   @override
+  @HiveField(4)
   bool get done;
   @override
+  @HiveField(5)
   String get color;
   @override
+  @HiveField(6)
   DateTime get createdAt;
   @override
+  @HiveField(7)
   DateTime get changedAt;
   @override
+  @HiveField(8)
   int get deviceId;
   @override
   @JsonKey(ignore: true)

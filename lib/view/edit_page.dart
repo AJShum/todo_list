@@ -1,7 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:todo_list/logic/main_bloc.dart';
 import 'package:todo_list/model/task.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// [EditPage] page for editing the addition of a specific task
 class EditPage extends StatefulWidget {
@@ -17,16 +21,31 @@ class EditPage extends StatefulWidget {
 class _EditPageState extends State<EditPage> {
   final TextEditingController _taskController = TextEditingController();
 
-// FIX: switchValue should be false only if there is no deadline
   bool _switchValue = false;
 
-  String _priority = 'Нет';
+  late String _priority;
 
   @override
   void initState() {
     super.initState();
     if (widget.editedTask.text.isNotEmpty) {
       _taskController.text = widget.editedTask.text;
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    switch (widget.editedTask.importance) {
+      case (TaskImportance.absent):
+        _priority = AppLocalizations.of(context)!.noPriority;
+        break;
+
+      case (TaskImportance.low):
+        _priority = AppLocalizations.of(context)!.lowPriority;
+        break;
+      default:
+        _priority = AppLocalizations.of(context)!.highPriority;
     }
   }
 
@@ -45,16 +64,20 @@ class _EditPageState extends State<EditPage> {
                     IconButton(
                       icon: const Icon(Icons.close),
                       onPressed: () {
-                        // TODO: close without saving
                         Navigator.of(context).pop();
                       },
                     ),
                     TextButton(
                       onPressed: () {
-                        // TODO: close with save data
+                        context.read<MainCubit>().addTask(
+                              widget.editedTask.copyWith(
+                                text: _taskController.value.text,
+                                importance: _convertPriority(context),
+                              ),
+                            );
                         Navigator.of(context).pop();
                       },
-                      child: const Text('СОХРАНИТЬ'),
+                      child: Text(AppLocalizations.of(context)!.save),
                     )
                   ],
                 ),
@@ -67,8 +90,8 @@ class _EditPageState extends State<EditPage> {
                     child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: TextField(
-                        decoration: const InputDecoration.collapsed(
-                          hintText: 'Что надо сделать..',
+                        decoration: InputDecoration.collapsed(
+                          hintText: AppLocalizations.of(context)!.todo,
                         ),
                         controller: _taskController,
                       ),
@@ -85,24 +108,28 @@ class _EditPageState extends State<EditPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Важность',
+                        Text(
+                          AppLocalizations.of(context)!.importance,
                           textAlign: TextAlign.left,
                         ),
                         // FIX: make correct display
                         Text(_priority),
                       ],
                     ),
-                    itemBuilder: (ctx) =>
-                        ['Нет', 'Низкий', '!! Высокий'].map((e) {
+                    itemBuilder: (ctx) => [
+                      AppLocalizations.of(context)!.noPriority,
+                      AppLocalizations.of(context)!.lowPriority,
+                      AppLocalizations.of(context)!.highPriority
+                    ].map((e) {
                       return PopupMenuItem<String>(
                         value: e,
                         child: Text(
                           e,
-                          // FIX: change when we go through topics
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    color: e == '!! Высокий'
+                                    color: e ==
+                                            AppLocalizations.of(context)!
+                                                .highPriority
                                         ? Colors.red
                                         : Colors.white,
                                   ),
@@ -111,10 +138,15 @@ class _EditPageState extends State<EditPage> {
                     }).toList(),
                     onSelected: (value) {
                       log(
-                          '[EditPage] change priority to $value for '
-                          '${widget.editedTask.id}',
-                          name: 'info');
+                        '[EditPage] change priority to $value for '
+                        '${widget.editedTask.id}',
+                        name: 'info',
+                      );
                       _priority = value;
+                      context.read<MainCubit>().changeTask(
+                            widget.editedTask.copyWith(
+                                importance: _convertPriority(context)),
+                          );
                       setState(() {});
                     },
                   ),
@@ -129,9 +161,10 @@ class _EditPageState extends State<EditPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Cделать до'),
-                        // TODO: make a normal date display
-                        Text('${widget.editedTask.deadline}'),
+                        Text(AppLocalizations.of(context)!.finish),
+                        Text(
+                          DateFormat.yMd().format(widget.editedTask.deadline),
+                        ),
                       ],
                     ),
                     Switch(
@@ -157,15 +190,16 @@ class _EditPageState extends State<EditPage> {
                       '[EditPage] remove task with ${widget.editedTask.id}',
                       name: 'info',
                     );
-                    // TODO: remove item
+                    context.read<MainCubit>().deleteTask(widget.editedTask);
+                    Navigator.of(context).pop();
                   },
-                  child: const Row(
+                  child: Row(
                     children: [
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.all(8),
                         child: Icon(Icons.delete),
                       ),
-                      Text('Удалить')
+                      Text(AppLocalizations.of(context)!.remove)
                     ],
                   ),
                 )
@@ -175,5 +209,15 @@ class _EditPageState extends State<EditPage> {
         ),
       ),
     );
+  }
+
+  TaskImportance _convertPriority(BuildContext context) {
+    if (_priority == AppLocalizations.of(context)!.noPriority) {
+      return TaskImportance.absent;
+    } else if (_priority == AppLocalizations.of(context)!.lowPriority) {
+      return TaskImportance.low;
+    } else {
+      return TaskImportance.high;
+    }
   }
 }
