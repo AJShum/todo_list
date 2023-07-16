@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
 part 'task.freezed.dart';
@@ -66,9 +67,9 @@ class Task extends HiveObject with _$Task {
 
 class FakeTaskRepository {
   Future init() async {
-    var path = Directory.current.path;
+    final path = await getApplicationDocumentsDirectory();
     Hive
-      ..init(path)
+      ..init(path.path)
       ..registerAdapter(TaskAdapter())
       ..registerAdapter(ImportanceAdapter())
       ..registerAdapter(StatusAdapter());

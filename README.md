@@ -9,5 +9,5 @@
 4. Установить для задачи срок выполнения
 5. Редактировать задачу
 
-https://github.com/AJShum/todo_list/releases/tag/v0.0.1-beta
+https://github.com/AJShum/todo_list/releases/tag/v0.0.1-beta1
 
