@@ -10,9 +10,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 /// [EditPage] page for editing the addition of a specific task
 class EditPage extends StatefulWidget {
   // ignore: public_member_api_docs
-  const EditPage(this.editedTask, {super.key});
+  EditPage(this.editedTask, {super.key});
 
-  final Task editedTask;
+  Task editedTask;
 
   @override
   State<EditPage> createState() => _EditPageState();
@@ -39,12 +39,9 @@ class _EditPageState extends State<EditPage> {
     switch (widget.editedTask.importance) {
       case (TaskImportance.absent):
         _priority = AppLocalizations.of(context)!.noPriority;
-        break;
-
       case (TaskImportance.low):
         _priority = AppLocalizations.of(context)!.lowPriority;
-        break;
-      default:
+      case (TaskImportance.high):
         _priority = AppLocalizations.of(context)!.highPriority;
     }
   }
@@ -143,10 +140,10 @@ class _EditPageState extends State<EditPage> {
                         name: 'info',
                       );
                       _priority = value;
-                      context.read<MainCubit>().changeTask(
-                            widget.editedTask.copyWith(
-                                importance: _convertPriority(context)),
-                          );
+                      widget.editedTask = widget.editedTask.copyWith(
+                        importance: _convertPriority(context),
+                      );
+                      context.read<MainCubit>().changeTask(widget.editedTask);
                       setState(() {});
                     },
                   ),
@@ -171,9 +168,15 @@ class _EditPageState extends State<EditPage> {
                       value: _switchValue,
                       onChanged: (value) {
                         _switchValue = value;
+                        if (_switchValue == true) {
+                          _selectDate(context);
+                        } else {
+                          widget.editedTask = widget.editedTask
+                              .copyWith(deadline: DateTime.now());
+                          context.read<MainCubit>().editTask(widget.editedTask);
+                        }
                         setState(() {});
                       },
-                      // TODO: open calendar as modal widget and pick date
                     ),
                   ],
                 ),
@@ -209,6 +212,20 @@ class _EditPageState extends State<EditPage> {
         ),
       ),
     );
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final pickedDate = await showDatePicker(
+      context: context,
+      initialDate: widget.editedTask.deadline,
+      firstDate: DateTime(2015),
+      lastDate: DateTime(2050),
+    );
+    if (pickedDate != null && pickedDate != widget.editedTask.deadline) {
+      widget.editedTask = widget.editedTask.copyWith(deadline: pickedDate);
+      await context.read<MainCubit>().editTask(widget.editedTask);
+    }
+    setState(() {});
   }
 
   TaskImportance _convertPriority(BuildContext context) {

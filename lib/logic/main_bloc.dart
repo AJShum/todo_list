@@ -52,6 +52,11 @@ class MainCubit extends Cubit<MainState> {
     _repo.addTask(task);
     await update();
   }
+
+  Future<void> editTask(Task task) async {
+    _repo.editTask(task);
+    await update();
+  }
 }
 
 class MainState extends Equatable {
